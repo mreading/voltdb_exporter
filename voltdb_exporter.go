@@ -19,7 +19,7 @@ var (
 )
 
 func init() {
-    flag.StringVar(&addr, "h", "localhost:8080", "Address of one or more nodes of the cluster, comma separated")
+    flag.StringVar(&addr, "h", "localhost:8080", "Address of cluster")
     flag.StringVar(&user, "u", "", "Username for database authentication (required)")
     flag.StringVar(&pass, "p", "", "Password for database authentication (required)")
     flag.StringVar(&namespace, "n", "voltdb", "Namespace for metrics")
@@ -29,7 +29,7 @@ func init() {
 
 func checkConfiguration() {
     if len(user) == 0 || len(pass) == 0 {
-        log.Fatal("Invalid configuration: username and password must be set. See voltdb_exporter -help")
+        log.Fatal("Invalid configuration: username and password must be set. See voltdb_exporter -help for guidance")
     }
 }
 
@@ -47,7 +47,7 @@ func serveLandingPage() {
 }
 
 func serveMetrics() {
-    prometheus.MustRegister(NewVoltDBExporter(addr, user, pass, namespace))
+    prometheus.MustRegister(NewVoltDBExporter())
     http.Handle(metricPath, promhttp.Handler())
 }
 
@@ -60,6 +60,7 @@ func main() {
     flag.Parse()
 
     checkConfiguration()
+    initializeClient()
 
     serveLandingPage()
     serveMetrics()

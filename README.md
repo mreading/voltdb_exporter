@@ -17,15 +17,12 @@ go install
 ## Configuration
 
 The exporter is configured with command line arguments.
-|Flag|ENV variable|Default|Meaning|
-|---|---|---|---|
-|-h|DB.ADDRESS(ES)|localhost:8080|Address(es) of one or more nodes of the cluster, comma seperated|
-|-u|DB.USERNAME|(empty)|Username for database authentication (required)|
-|-p|DB.PASSWORD|(empty)|Password for database authentication (required)|
-|-n|NAMESPACE|voltdb|Namespace for metrics|
-|-l|LISTENADDRESS|:9469|Address to listen on for web interface and telemetry|
-|-m|METRICPATH|/metrics|Path under which to expose metrics|
 
-```bash
-voltdb_exporter -u matt -p matt 
-```
+Flag|ENV variable|Default|Meaning
+---|---|---|---
+-h|DB.ADDRESS(ES)|localhost:8080|Address(es) of one or more nodes of the cluster, comma seperated
+-u|DB.USERNAME|(empty)|Username for database authentication (required)
+-p|DB.PASSWORD|(empty)|Password for database authentication (required)
+-n|NAMESPACE|voltdb|Namespace for metrics
+-l|LISTENADDRESS|:9469|Address to listen on for web interface and telemetry
+-m|METRICPATH|/metrics|Path under which to expose metrics
