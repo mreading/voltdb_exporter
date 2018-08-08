@@ -12,6 +12,7 @@ type Stats struct {
     cpu     []byte
     txns    []byte
     latency []byte
+    ram     []byte
 }
 
 func initializeClient() {
@@ -41,11 +42,13 @@ func get(path string) ([]byte, error) {
 }
 
 func setPaths() []string {
+    basepath := "http://%s/api/1.0/?Procedure=%s&Parameters=%s&admin=false&User=%s&Password=%s"
     return []string {
-        fmt.Sprintf("http://%s/api/1.0/?Procedure=@SystemInformation&Parameters=['OVERVIEW']&admin=false&User=%s&Password=%s", addr, user, pass),
-        fmt.Sprintf("http://%s/api/1.0/?Procedure=@Statistics&Parameters=['CPU',0]&admin=false&User=%s&Password=%s", addr, user, pass),
-        fmt.Sprintf("http://%s/api/1.0/?Procedure=@Statistics&Parameters=['LATENCY',0]&admin=false&User=%s&Password=%s", addr, user, pass),
-        fmt.Sprintf("http://%s/api/1.0/?Procedure=@Statistics&Parameters=['LATENCY',0]&admin=false&User=%s&Password=%s", addr, user, pass),
+        fmt.Sprintf(basepath, addr, "@SystemInformation", "['OVERVIEW']", user, pass),
+        fmt.Sprintf(basepath, addr, "@Statistics", "['CPU',0]", user, pass),
+        fmt.Sprintf(basepath, addr, "@Statistics", "['LATENCY',0]", user, pass),
+        fmt.Sprintf(basepath, addr, "@Statistics", "['LATENCY',0]", user, pass),
+        fmt.Sprintf(basepath, addr, "@Statistics", "['MEMORY',0]", user, pass),
     }
 }
 
@@ -74,6 +77,7 @@ func getStats() (*Stats, error) {
                 cpu:     data[1],
                 txns:    data[2],
                 latency: data[3],
+                ram:     data[4],
              }
 
     return &stats, nil

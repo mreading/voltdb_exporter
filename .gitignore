@@ -1,2 +1,5 @@
 # ignore Prometheus data
 /data
+
+# self explanatory
+.DS_Store

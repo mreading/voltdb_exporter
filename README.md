@@ -16,7 +16,7 @@ go install
 
 ## Configuration
 
-The exporter is configured with command line arguments.
+The exporter is configured with command line arguments. Of course, start your VoltDB server before running the exporter (it will complain).
 
 Flag|ENV variable|Default|Meaning
 ---|---|---|---
@@ -26,3 +26,29 @@ Flag|ENV variable|Default|Meaning
 -n|NAMESPACE|voltdb|Namespace for metrics
 -l|LISTENADDRESS|:9469|Address to listen on for web interface and telemetry
 -m|METRICPATH|/metrics|Path under which to expose metrics
+
+Below is an example configuration to run the exporter.
+
+```bash
+voltdb_exporter -h localhost:8080 -u matt -p matt -n voltdb -l :9469 -m /metrics
+```
+
+## Prometheus
+
+To scrape data from the VoltDB server, download and run [Prometheus](https://prometheus.io/). The default port is :9090.
+
+```bash
+prometheus --config.file=prometheus.yml
+```
+
+## Grafana
+
+To visualize scraped VoltDB statistics from Prometheus, download and run [Grafana](https://grafana.com/). The default port is :3000.
+
+```bash
+brew update
+brew install grafana
+brew services start grafana
+```
+
+Next, import the VoltDB Dashboard (voltdb-grafana-dashboard.json), et voila!

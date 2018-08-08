@@ -10,12 +10,12 @@ import (
 )
 
 var (
-    addr            string
-    user            string
-    pass            string
-    namespace       string
-    listenAddress   string
-    metricPath      string
+    addr          string
+    user          string
+    pass          string
+    namespace     string
+    listenAddress string
+    metricPath    string
 )
 
 func init() {

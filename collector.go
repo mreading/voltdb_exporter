@@ -13,35 +13,17 @@ type Exporter struct {
     cluster_ready       prometheus.Gauge
     cluster_txns        prometheus.Gauge
     cluster_latency99   prometheus.Gauge
+    server_ram_used     prometheus.Gauge
 }
 
 func NewVoltDBExporter() *Exporter {
     return &Exporter{
-        up:                 prometheus.NewGauge(prometheus.GaugeOpts{
-                                Namespace: namespace,
-                                Name:      "up",
-                                Help:      "Whether the VoltDB cluster is up or not",
-                            }),
-        cluster_ready:      prometheus.NewGauge(prometheus.GaugeOpts{
-                                Namespace: namespace,
-                                Name:      "cluster_ready",
-                                Help:      "Whether the VoltDB cluster is running or paused",
-                            }),
-        cpu_percent_used:   prometheus.NewGauge(prometheus.GaugeOpts{
-                                Namespace: namespace,
-                                Name:      "cpu_percent_used",
-                                Help:      "The percentage of total CPU available used by the database server process",
-                            }),
-        cluster_txns:       prometheus.NewGauge(prometheus.GaugeOpts{
-                                Namespace: namespace,
-                                Name:      "cluster_txns",
-                                Help:      "The number of transactions per second during the measurement interval (5000ms)",
-                            }),
-        cluster_latency99:  prometheus.NewGauge(prometheus.GaugeOpts{
-                                Namespace: namespace,
-                                Name:      "cluster_latency99",
-                                Help:      "The 99th percentile latency, in microseconds",
-                            }),
+        up:                 createGauge("up", namespace, "Whether the VoltDB cluster is up or not"),
+        cluster_ready:      createGauge("cluster_ready", namespace, "Whether the VoltDB cluster is running or paused"),
+        cpu_percent_used:   createGauge("cpu_percent_used", namespace, "The percentage of total CPU available used by the database server process"),
+        cluster_txns:       createGauge("cluster_txns", namespace, "The number of transactions per second during the measurement interval (5000ms)"),
+        cluster_latency99:  createGauge("cluster_latency99", namespace, "The 99th percentile latency, in microseconds"),
+        server_ram_used:    createGauge("server_ram_used", namespace, "The amount of memory (in kilobytes) allocated by Java and current in use by VoltDB"),
     }
 }
 
@@ -51,6 +33,7 @@ func (e *Exporter) Describe(ch chan <- *prometheus.Desc) {
     ch <- e.cpu_percent_used.Desc()
     ch <- e.cluster_txns.Desc()
     ch <- e.cluster_latency99.Desc()
+    ch <- e.server_ram_used.Desc()
 }
 
 func (e *Exporter) Collect(ch chan <- prometheus.Metric) {
@@ -76,9 +59,12 @@ func (e *Exporter) Collect(ch chan <- prometheus.Metric) {
 
         e.cluster_latency99.Set(getClusterLatency99(stats))
         ch <- e.cluster_latency99
+
+        e.server_ram_used.Set(getServerRAMUsed(stats))
+        ch <- e.server_ram_used
     }
 
-    log.Print("Scrape successful")
+    log.Print("Scrape complete")
 }
 
 func getClusterState(stats *Stats) float64 {
@@ -113,4 +99,22 @@ func getClusterLatency99(stats *Stats) float64 {
     value := gjson.Get(json, "results.0.data.0.8")
 
     return value.Num
+}
+
+func getServerRAMUsed(stats *Stats) float64 {
+    var json string
+    gjson.Unmarshal(stats.ram, &json)
+    value := gjson.Get(json, "results.0.data.0.6")
+    log.Print(value)
+
+    // return value.Num
+    return float64(0)
+}
+
+func createGauge(name string, namespace string, help string) prometheus.Gauge {
+    return prometheus.NewGauge(prometheus.GaugeOpts{
+        Name:      name,
+        Namespace: namespace,
+        Help:      help,
+    })
 }
