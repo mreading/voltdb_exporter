@@ -8,12 +8,14 @@ import (
 )
 
 type Stats struct {
-    cpu []byte
+    state   []byte
+    cpu     []byte
+    txns    []byte
+    latency []byte
 }
 
 func initializeClient() {
-    request := fmt.Sprintf("http://%s/api/1.0/?Procedure=@SystemInformation&Parameters=['DEPLOYMENT']&admin=false&User=%s&Password=%s", 
-                           addr, user, pass)
+    request := fmt.Sprintf("http://%s/api/1.0/?Procedure=@Ping&admin=false&User=%s&Password=%s", addr, user, pass)
     resp, err := http.Get(request)
     if err != nil {
         log.Fatal(err)
@@ -40,7 +42,10 @@ func get(path string) ([]byte, error) {
 
 func setPaths() []string {
     return []string {
+        fmt.Sprintf("http://%s/api/1.0/?Procedure=@SystemInformation&Parameters=['OVERVIEW']&admin=false&User=%s&Password=%s", addr, user, pass),
         fmt.Sprintf("http://%s/api/1.0/?Procedure=@Statistics&Parameters=['CPU',0]&admin=false&User=%s&Password=%s", addr, user, pass),
+        fmt.Sprintf("http://%s/api/1.0/?Procedure=@Statistics&Parameters=['LATENCY',0]&admin=false&User=%s&Password=%s", addr, user, pass),
+        fmt.Sprintf("http://%s/api/1.0/?Procedure=@Statistics&Parameters=['LATENCY',0]&admin=false&User=%s&Password=%s", addr, user, pass),
     }
 }
 
@@ -65,7 +70,10 @@ func getStats() (*Stats, error) {
 
     // attribute data corresponds with data[<index of attribute path in paths>]
     stats := Stats {
-                cpu: data[0], 
+                state:   data[0],
+                cpu:     data[1],
+                txns:    data[2],
+                latency: data[3],
              }
 
     return &stats, nil
