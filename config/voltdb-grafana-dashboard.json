@@ -60,7 +60,7 @@
       "colorValue": true,
       "colors": [
         "#299c46",
-        "rgba(237, 129, 40, 0.89)",
+        "#bf1b00",
         "#d44a3a"
       ],
       "datasource": "${DS_VOLTDB_PROMETHEUS}",
@@ -75,7 +75,7 @@
       "gridPos": {
         "h": 3,
         "w": 6,
-        "x": 3,
+        "x": 0,
         "y": 0
       },
       "id": 4,
@@ -150,9 +150,9 @@
       "colorBackground": false,
       "colorValue": true,
       "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
+        "#d44a3a",
+        "#629e51",
+        "#299c46"
       ],
       "datasource": "${DS_VOLTDB_PROMETHEUS}",
       "format": "none",
@@ -165,8 +165,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 8,
-        "x": 14,
+        "w": 6,
+        "x": 6,
         "y": 0
       },
       "id": 6,
@@ -237,7 +237,211 @@
       "valueName": "avg"
     },
     {
-      "aliasColors": {},
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "#65c5db",
+        "#d44a3a"
+      ],
+      "datasource": "${DS_VOLTDB_PROMETHEUS}",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "id": 16,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "voltdb_dr_role",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "title": "Database Replication Role",
+      "type": "singlestat",
+      "valueFontSize": "170%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "NONE",
+          "value": "0"
+        },
+        {
+          "op": "=",
+          "text": "MASTER",
+          "value": "1"
+        },
+        {
+          "op": "=",
+          "text": "REPLICA",
+          "value": "2"
+        },
+        {
+          "op": "=",
+          "text": "XDCR",
+          "value": "3"
+        },
+        {
+          "op": "=",
+          "text": "OFFLINE",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "#eab839",
+        "#d44a3a"
+      ],
+      "datasource": "${DS_VOLTDB_PROMETHEUS}",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 18,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "voltdb_dr_state",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "title": "Database Replication State",
+      "type": "singlestat",
+      "valueFontSize": "170%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "DISABLED",
+          "value": "0"
+        },
+        {
+          "op": "=",
+          "text": "ACTIVE",
+          "value": "1"
+        },
+        {
+          "op": "=",
+          "text": "PENDING",
+          "value": "2"
+        },
+        {
+          "op": "=",
+          "text": "STOPPED",
+          "value": "3"
+        },
+        {
+          "op": "=",
+          "text": "OFFLINE",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "aliasColors": {
+        "CPU": "#bf1b00"
+      },
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -250,6 +454,7 @@
         "y": 3
       },
       "id": 8,
+      "interval": "1s",
       "legend": {
         "avg": false,
         "current": false,
@@ -275,6 +480,7 @@
         {
           "expr": "voltdb_cpu_percent_used",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "CPU",
           "refId": "A"
@@ -307,8 +513,8 @@
           "show": true
         },
         {
-          "format": "short",
-          "label": null,
+          "format": "gbytes",
+          "label": "",
           "logBase": 1,
           "max": null,
           "min": null,
@@ -334,6 +540,7 @@
         "y": 3
       },
       "id": 14,
+      "interval": "1s",
       "legend": {
         "avg": false,
         "current": false,
@@ -357,10 +564,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "voltdb_server_ram_used",
+          "expr": "voltdb_server_ram_used/1000000",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{job}}",
+          "legendFormat": "RAM",
           "refId": "A"
         }
       ],
@@ -383,7 +590,7 @@
       },
       "yaxes": [
         {
-          "format": "gbytes",
+          "format": "decgbytes",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -405,7 +612,9 @@
       }
     },
     {
-      "aliasColors": {},
+      "aliasColors": {
+        "LATENCY": "#65c5db"
+      },
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -419,6 +628,7 @@
         "y": 12
       },
       "id": 10,
+      "interval": "1s",
       "legend": {
         "avg": false,
         "current": false,
@@ -442,10 +652,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "voltdb_cluster_latency99",
+          "expr": "voltdb_cluster_latency99/1000",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{job}}",
+          "legendFormat": "LATENCY",
           "refId": "A"
         }
       ],
@@ -469,6 +679,7 @@
       },
       "yaxes": [
         {
+          "decimals": null,
           "format": "ms",
           "label": null,
           "logBase": 1,
@@ -491,7 +702,9 @@
       }
     },
     {
-      "aliasColors": {},
+      "aliasColors": {
+        "TRANSACTIONS": "#eab839"
+      },
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -504,6 +717,7 @@
         "y": 12
       },
       "id": 12,
+      "interval": "1s",
       "legend": {
         "avg": false,
         "current": false,
@@ -529,8 +743,9 @@
         {
           "expr": "voltdb_cluster_txns",
           "format": "time_series",
+          "instant": false,
           "intervalFactor": 1,
-          "legendFormat": "{{job}}",
+          "legendFormat": "TRANSACTIONS",
           "refId": "A"
         }
       ],
@@ -583,21 +798,17 @@
     "list": []
   },
   "time": {
-    "from": "now-5m",
-    "to": "now"
+    "from": "2018-08-09T19:50:40.169Z",
+    "to": "2018-08-09T19:52:01.440Z"
   },
   "timepicker": {
     "refresh_intervals": [
+      "1s",
       "5s",
       "10s",
       "30s",
       "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
+      "5m"
     ],
     "time_options": [
       "5m",
@@ -613,6 +824,6 @@
   },
   "timezone": "",
   "title": "VoltDB",
-  "uid": "d3EopAcik",
-  "version": 3
+  "uid": "d3EopAcis",
+  "version": 5
 }

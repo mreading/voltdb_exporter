@@ -7,16 +7,24 @@ Exports VoltDB metrics and allows for Prometheus scraping.
 You need to have Go version go1.10.3 darwin/amd64 configured (with proper $GOPATH).
 
 ```bash
-mkdir -p $GOPATH/src/github.com/user/voltdb_exporter
-cd $GOPATH/src/github.com/user/voltdb_exporter
+mkdir -p $GOPATH/src/github.com/mreading/
+cd $GOPATH/src/github.com/mreading/
 git clone https://github.com/mreading/voltdb_exporter.git
+cd voltdb_exporter
 go build
 go install
 ```
 
+## Dependencies
+
+You need to install the following Go packages using ```go get```.
+
+1. github.com/prometheus/client_golang/prometheus
+2. github.com/tidwall/gjson
+
 ## Configuration
 
-The exporter is configured with command line arguments. Of course, start your VoltDB server before running the exporter (it will complain).
+The exporter is configured with CLI arguments. Of course, start your VoltDB server before running the exporter (it will complain).
 
 Flag|ENV variable|Default|Meaning
 ---|---|---|---
@@ -30,7 +38,7 @@ Flag|ENV variable|Default|Meaning
 Below is an example configuration to run the exporter.
 
 ```bash
-voltdb_exporter -h localhost:8080 -u matt -p matt -n voltdb -l :9469 -m /metrics
+voltdb_exporter -h localhost:8080,localhost:8081 -u matt -p secret -n voltdb -l :9469 -m /metrics
 ```
 
 ## Prometheus
@@ -38,7 +46,7 @@ voltdb_exporter -h localhost:8080 -u matt -p matt -n voltdb -l :9469 -m /metrics
 To scrape data from the VoltDB server, download and run [Prometheus](https://prometheus.io/). The default port is :9090.
 
 ```bash
-prometheus --config.file=prometheus.yml
+prometheus --config.file=config/prometheus.yml
 ```
 
 ## Grafana
@@ -51,4 +59,4 @@ brew install grafana
 brew services start grafana
 ```
 
-Next, import the VoltDB Dashboard (voltdb-grafana-dashboard.json), et voila!
+Next, import the VoltDB Dashboard (config/voltdb-grafana-dashboard.json), et voila! Enjoy your metrics.

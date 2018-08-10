@@ -17,4 +17,7 @@ scrape_configs:
 
     static_configs:
       - targets: ['localhost:9469']
-
+  - job_name: 'test'
+    scrape_interval: 1s
+    static_configs:
+      - targets: ['localhost:9470']
