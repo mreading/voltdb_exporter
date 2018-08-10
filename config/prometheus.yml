@@ -6,18 +6,13 @@ global:
   external_labels:
     monitor: 'codelab-monitor'
 
-# A scrape configuration containing exactly one endpoint to scrape:
-# Here it's Prometheus itself.
+# A scrape configuration containing exactly one endpoint to scrape
 scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'voltdb'
 
-    # Override the global default and scrape targets from this job every 5 seconds.
+    # Override the global default and scrape targets from this job every second.
     scrape_interval: 1s
 
     static_configs:
       - targets: ['localhost:9469']
-  - job_name: 'test'
-    scrape_interval: 1s
-    static_configs:
-      - targets: ['localhost:9470']

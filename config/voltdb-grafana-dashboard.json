@@ -119,11 +119,13 @@
           "format": "time_series",
           "instant": true,
           "intervalFactor": 1,
+          "legendFormat": "{{database}}",
           "refId": "A"
         }
       ],
       "thresholds": "",
       "title": "VoltDB Server",
+      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "170%",
       "valueMaps": [
@@ -143,7 +145,7 @@
           "value": "null"
         }
       ],
-      "valueName": "avg"
+      "valueName": "current"
     },
     {
       "cacheTimeout": null,
@@ -170,7 +172,7 @@
         "y": 0
       },
       "id": 6,
-      "interval": null,
+      "interval": "1s",
       "links": [],
       "mappingType": 1,
       "mappingTypes": [
@@ -210,6 +212,7 @@
           "format": "time_series",
           "instant": true,
           "intervalFactor": 1,
+          "legendFormat": "{{database}}",
           "refId": "A"
         }
       ],
@@ -220,6 +223,11 @@
       "valueMaps": [
         {
           "op": "=",
+          "text": "OFFLINE",
+          "value": "null"
+        },
+        {
+          "op": "=",
           "text": "RUNNING",
           "value": "1"
         },
@@ -227,14 +235,9 @@
           "op": "=",
           "text": "PAUSED",
           "value": "0"
-        },
-        {
-          "op": "=",
-          "text": "OFFLINE",
-          "value": "null"
         }
       ],
-      "valueName": "avg"
+      "valueName": "current"
     },
     {
       "cacheTimeout": null,
@@ -482,7 +485,7 @@
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "CPU",
+          "legendFormat": "{{database}}",
           "refId": "A"
         }
       ],
@@ -564,10 +567,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "voltdb_server_ram_used/1000000",
+          "expr": "voltdb_server_ram_used",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "RAM",
+          "legendFormat": "{{database}}",
           "refId": "A"
         }
       ],
@@ -652,10 +655,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "voltdb_cluster_latency99/1000",
+          "expr": "voltdb_cluster_latency99",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "LATENCY",
+          "legendFormat": "{{database}}",
           "refId": "A"
         }
       ],
@@ -745,7 +748,7 @@
           "format": "time_series",
           "instant": false,
           "intervalFactor": 1,
-          "legendFormat": "TRANSACTIONS",
+          "legendFormat": "{{database}}",
           "refId": "A"
         }
       ],
@@ -790,7 +793,7 @@
       }
     }
   ],
-  "refresh": false,
+  "refresh": "5s",
   "schemaVersion": 16,
   "style": "dark",
   "tags": [],
@@ -798,8 +801,8 @@
     "list": []
   },
   "time": {
-    "from": "2018-08-09T19:50:40.169Z",
-    "to": "2018-08-09T19:52:01.440Z"
+    "from": "now-5m",
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -825,5 +828,5 @@
   "timezone": "",
   "title": "VoltDB",
   "uid": "d3EopAcis",
-  "version": 5
+  "version": 11
 }

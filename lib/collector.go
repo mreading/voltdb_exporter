@@ -44,9 +44,9 @@ func (e *Exporter) Collect(ch chan <- prometheus.Metric) {
     log.Print("Scrape complete")
 }
 
-func collectPerDatabaseGauge(s *[]Stats, vec *prometheus.GaugeVec, collectFunc func(Stats) float64, ch chan<- prometheus.Metric) {
-    for _, st := range *s {
-        vec.WithLabelValues(st.database).Set(collectFunc(st))
+func collectPerDatabaseGauge(statslist *[]Stats, vec *prometheus.GaugeVec, collectFunc func(Stats) float64, ch chan<- prometheus.Metric) {
+    for _, stats := range *statslist {
+        vec.WithLabelValues(stats.database).Set(collectFunc(stats))
     }
     vec.Collect(ch)
 }
