@@ -60,3 +60,7 @@ brew services start grafana
 ```
 
 Next, import the VoltDB Dashboard (config/voltdb-grafana-dashboard.json), et voila! Enjoy your metrics.
+
+## Notes
+
+Ideas and code heavily inspired by other database exporters found under the [Exporter and Integrations](https://prometheus.io/docs/instrumenting/exporters/) page on the Prometheus website.
