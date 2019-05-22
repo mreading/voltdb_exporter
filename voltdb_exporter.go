@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -69,8 +68,6 @@ func main() {
 
 	// split comma seperated string into list of databases
 	databases := strings.Split(addresses, ",")
-
-	fmt.Println(databases, username, password, namespace, listenAddress, metricPath)
 
 	// Configure base HTTP page with link to metrics
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
