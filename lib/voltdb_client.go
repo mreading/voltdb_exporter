@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"crypto/tls"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -9,9 +10,11 @@ import (
 )
 
 type VoltDBClient struct {
-	username  string
-	password  string
-	databases []string
+	username      string
+	password      string
+	databases     []string
+	useHttp       bool
+	insecureHttps bool
 }
 
 type Stats struct {
@@ -25,19 +28,29 @@ type Stats struct {
 	dr_state []byte
 }
 
-func NewVoltDBClient(user string, pass string, dbs []string) *VoltDBClient {
-	initializeClient(user, pass, dbs)
+func NewVoltDBClient(user string, pass string, dbs []string, useHttp bool, insecureHttps bool) *VoltDBClient {
+	initializeClient(user, pass, dbs, useHttp, insecureHttps)
 
 	return &VoltDBClient{
-		username:  user,
-		password:  pass,
-		databases: dbs,
+		username:      user,
+		password:      pass,
+		databases:     dbs,
+		useHttp:       useHttp,
+		insecureHttps: insecureHttps,
 	}
 }
 
-func initializeClient(user string, pass string, addrs []string) {
+func initializeClient(user string, pass string, addrs []string, useHttp bool, insecureHttps bool) {
+	var proto string
 	for _, addr := range addrs {
-		request := fmt.Sprintf("http://%s/api/1.0/?Procedure=@Ping&admin=false&User=%s&Password=%s", addr, user, pass)
+		if !useHttp {
+			http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: insecureHttps}
+			proto = "https"
+		} else {
+			proto = "http"
+		}
+
+		request := fmt.Sprintf("%s://%s/api/1.0/?Procedure=@Ping&admin=false&User=%s&Password=%s", proto, addr, user, pass)
 		resp, err := http.Get(request)
 		if err != nil {
 			log.Fatal(err)
@@ -66,7 +79,13 @@ func get(path string) ([]byte, error) {
 }
 
 func setPaths(addr string, client *VoltDBClient) []string {
-	basepath := "http://%s/api/1.0/?Procedure=%s&Parameters=%s&admin=false&User=%s&Password=%s"
+	var proto string
+	if client.useHttp {
+		proto = "http"
+	} else {
+		proto = "https"
+	}
+	basepath := proto + "://%s/api/1.0/?Procedure=%s&Parameters=%s&admin=false&User=%s&Password=%s"
 	return []string{
 		fmt.Sprintf(basepath, addr, "@SystemInformation", "['OVERVIEW']", client.username, client.password),
 		fmt.Sprintf(basepath, addr, "@Statistics", "['CPU',0]", client.username, client.password),

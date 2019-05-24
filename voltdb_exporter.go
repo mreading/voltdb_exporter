@@ -7,8 +7,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/opsgang/prometheus_voltdb_exporter/lib"
-
+	//"github.com/opsgang/prometheus_voltdb_exporter/lib"
+	"./lib"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -20,6 +20,8 @@ var (
 	namespace     string
 	listenAddress string
 	metricPath    string
+	useHTTP       bool
+	insecureHTTPS bool
 )
 
 // Parse CLI for flags and set variables; also acts as bootstrap --help
@@ -30,6 +32,8 @@ func init() {
 	flag.StringVar(&namespace, "n", "voltdb", "Namespace for metrics")
 	flag.StringVar(&listenAddress, "l", ":9469", "Address to listen on for web interface and telemetry.")
 	flag.StringVar(&metricPath, "m", "/metrics", "Path under which to expose metrics.")
+	flag.BoolVar(&useHTTP, "H", false, "Use http connectins")
+	flag.BoolVar(&insecureHTTPS, "i", false, "Skip certificate check")
 }
 
 // Check that CLI arguments are properly set
@@ -40,6 +44,8 @@ func checkConfiguration() {
 	envVarNamespace, isEnvVarNamespaceSet := os.LookupEnv("VOLTDB_EXPORTER_NAMESPACE")
 	envVarListen, isEnvVarListenSet := os.LookupEnv("VOLTDB_EXPORTER_LISTEN")
 	envVarPath, isEnvVarPathSet := os.LookupEnv("VOLTDB_EXPORTER_PATH")
+	envVarProto, isEnvVarProtoSet := os.LookupEnv("VOLTDB_EXPORTER_USE_HTTP")
+	_, isEnvVarInsecureSet := os.LookupEnv("VOLTDB_EXPORTER_INSECURE")
 
 	if isEnvVarHostSet && len(envVarHost) > 0 {
 		addresses = envVarHost
@@ -58,6 +64,12 @@ func checkConfiguration() {
 	}
 	if isEnvVarPathSet && len(envVarPath) > 0 {
 		metricPath = envVarPath
+	}
+	if isEnvVarProtoSet && len(envVarProto) > 0 {
+		useHTTP = true
+	}
+	if isEnvVarInsecureSet && len(envVarProto) > 0 {
+		insecureHTTPS = true
 	}
 }
 
@@ -82,7 +94,7 @@ func main() {
 	})
 
 	// Initialize exporter, link to Prometheus, and configure metrics HTTP page
-	prometheus.MustRegister(lib.NewVoltDBExporter(namespace, username, password, databases))
+	prometheus.MustRegister(lib.NewVoltDBExporter(namespace, username, password, databases, useHTTP, insecureHTTPS))
 	http.Handle(metricPath, promhttp.Handler())
 
 	// Start HTTP server and prepare for scraping
