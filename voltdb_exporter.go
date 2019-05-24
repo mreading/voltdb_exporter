@@ -45,7 +45,7 @@ func checkConfiguration() {
 	envVarListen, isEnvVarListenSet := os.LookupEnv("VOLTDB_EXPORTER_LISTEN")
 	envVarPath, isEnvVarPathSet := os.LookupEnv("VOLTDB_EXPORTER_PATH")
 	envVarProto, isEnvVarProtoSet := os.LookupEnv("VOLTDB_EXPORTER_USE_HTTP")
-	_, isEnvVarInsecureSet := os.LookupEnv("VOLTDB_EXPORTER_INSECURE")
+	envVarInsecure, isEnvVarInsecureSet := os.LookupEnv("VOLTDB_EXPORTER_INSECURE")
 
 	if isEnvVarHostSet && len(envVarHost) > 0 {
 		addresses = envVarHost
@@ -68,7 +68,7 @@ func checkConfiguration() {
 	if isEnvVarProtoSet && (envVarProto == "true" || envVarProto == "1" || envVarProto == "yes") {
 		useHTTP = true
 	}
-	if isEnvVarInsecureSet && (envVarProto == "true" || envVarProto == "1" || envVarProto == "yes") {
+	if isEnvVarInsecureSet && (envVarInsecure == "true" || envVarInsecure == "1" || envVarInsecure == "yes") {
 		insecureHTTPS = true
 	}
 }
