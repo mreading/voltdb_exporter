@@ -7,8 +7,8 @@ import (
 	"os"
 	"strings"
 
-	//"github.com/opsgang/prometheus_voltdb_exporter/lib"
-	"./lib"
+	"github.com/opsgang/prometheus_voltdb_exporter/lib"
+
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
