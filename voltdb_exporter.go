@@ -65,10 +65,10 @@ func checkConfiguration() {
 	if isEnvVarPathSet && len(envVarPath) > 0 {
 		metricPath = envVarPath
 	}
-	if isEnvVarProtoSet && len(envVarProto) > 0 {
+	if isEnvVarProtoSet && (envVarProto == "true" || envVarProto == "1" || envVarProto == "yes") {
 		useHTTP = true
 	}
-	if isEnvVarInsecureSet && len(envVarProto) > 0 {
+	if isEnvVarInsecureSet && (envVarProto == "true" || envVarProto == "1" || envVarProto == "yes") {
 		insecureHTTPS = true
 	}
 }
