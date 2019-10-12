@@ -41,6 +41,14 @@ Below is an example configuration to run the exporter.
 voltdb_exporter -h localhost:8080,localhost:8081 -u matt -p secret -n voltdb -l :9469 -m /metrics
 ```
 
+However, you don't necessarily have to use args but you can override all those values with following environemt variables.
+* VOLTDB_EXPORTER_HOST
+* VOLTDB_EXPORTER_USER
+* VOLTDB_EXPORTER_PASS
+* VOLTDB_EXPORTER_NAMESPACE
+* VOLTDB_EXPORTER_LISTEN
+* VOLTDB_EXPORTER_PATH
+
 ## Prometheus
 
 To scrape data from the VoltDB server, download and run [Prometheus](https://prometheus.io/). The default port is :9090.
